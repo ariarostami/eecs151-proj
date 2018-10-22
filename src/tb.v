@@ -12,7 +12,7 @@ module tb2();
 
 
 	//parser 
-	parameter SIZE = 2'd1;
+	parameter SIZE = 4'd5;
 
 	reg [0:SIZE] index; 
 	initial index = 0;
@@ -42,7 +42,7 @@ module tb2();
 	initial begin
 	//$vcdpluson;
 	@(posedge  clk)  begin
-		ALUop <= 4'b0000;
+		ALUop <= 4'd8;
 		end
 	repeat (SIZE+1) @(posedge clk);
 	//vcdplusoff;
