@@ -37,13 +37,9 @@ assign B_signed = B;
 		`ALU_OR:	out = A | B;
 		`ALU_XOR:	out = A ^ B;
 		`ALU_SLT:	out = (A_signed < B_signed) ? 32'd1 : 32'd0;
-		`ALU_SLTU:	out = (A < B) ? 32'd1 : 32'd0;
+		`ALU_SLTU:  out = (A < B) ? 32'd1 : 32'd0;
 		`ALU_SLL:	out = A << B;
-		`ALU_SRA:begin 
-			out = A_signed >> B;
-			$display("We are here in SRA");
-		end
-
+		`ALU_SRA:	out = A_signed >> B;	// Do we have to count for the case if B is negative.
 		`ALU_SRL:	out = A >> B;
 		`ALU_COPY_B: out = B;
 		`ALU_XXX:	out = out;
