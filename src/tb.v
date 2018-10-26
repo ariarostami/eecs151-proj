@@ -12,7 +12,7 @@ module tb2();
 
 
 	//parser 
-	parameter SIZE = 4'd6;
+	parameter SIZE = 4'd5;
 
 	reg [0:SIZE] index; 
 	initial index = 0;
@@ -50,7 +50,7 @@ module tb2();
 	end
 
 	always @(negedge clk) begin
-    //$display($time, ": Out should be %d, got %d", out_correct, out_test);
+    $display($time, ": Out should be %d, got %d", out_correct, out_test);
     index <= index + 1;
 	end
 endmodule

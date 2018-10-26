@@ -22,12 +22,13 @@ module ALUdec(
 
   // So the outpuot should be a 4-bit number choosing which operation of ALU
   // needs to be done. (ALUop)
+// Special immediate instructions
 
 always @(*) begin
 	case (opcode)
 
-		// 
-		7'b0110011: case (funct)
+		// R-type
+		`OPC_ARI_RTYPE: case (funct)
 			3'b000: ALUop = (add_rshift_type) ? `ALU_SUB : `ALU_ADD;
 			3'b001: ALUop = `ALU_SLL;
 			3'b010: ALUop = `ALU_SLT;
@@ -35,11 +36,11 @@ always @(*) begin
 			3'b100: ALUop = `ALU_XOR;
 			3'b101: ALUop = (add_rshift_type) ? `ALU_SRA : `ALU_SRL;
 			3'b110: ALUop = `ALU_OR;
-			3'b111: ALUop = `ALU_AND
+			3'b111: ALUop = `ALU_AND;
 		endcase 
 
-		// Immediate
-		7'b0010011: case (funct)
+		// I-type
+		`OPC_ARI_ITYPE: case (funct)
 			3'b000: ALUop = `ALU_ADD; 
 			3'b001: ALUop = `ALU_SLL;
 			3'b010: ALUop = `ALU_SLT;
@@ -51,7 +52,7 @@ always @(*) begin
 		endcase 
 
 		// Load
-		7'b0000011: case (funct)
+		`OPC_LOAD: case (funct)
 			3'b000: ALUop = `ALU_ADD;	// lb
 			3'b001: ALUop = `ALU_ADD;	// lh
 			3'b010: ALUop = `ALU_ADD;	// lw
@@ -60,7 +61,7 @@ always @(*) begin
 		endcase
 
 		// Branch 
-		7'b1100011: case (funct)
+		`OPC_BRANCH: case (funct)
 			3'b000: ALUop = `ALU_ADD;	// beq
 			3'b001: ALUop = `ALU_ADD; 	// bne
 			3'b100: ALUop = `ALU_ADD; 	// blt
@@ -70,33 +71,33 @@ always @(*) begin
 		endcase 
 
 		// Store 
-		7'b0100011: case (funct)
+		`OPC_STORE: case (funct)
 			3'b000: ALUop = `ALU_ADD;	// sb
 			3'b001: ALUop = `ALU_ADD;	// sh
 			3'b010: ALUop = `ALU_ADD;	// sw
 		endcase
 
 		// 
-		7'b1100111: case (funct)
+		`OPC_JALR: case (funct)
 			3'b000: ALUop = `ALU_ADD;	// jalr
 		endcase 
 
 		// 
-		7'b1101111: ALUop = `ALU_ADD;	// jal
+		`OPC_JAL: ALUop = `ALU_ADD;	// jal
 
 		//
-		7'b0010111: ALUop = `ALU_ADD;	// auipc
+		`OPC_AUIPC: ALUop = `ALU_ADD;	// auipc
 
 		//
-		7'b0110111: ALUop = `ALU_COPY_B; 	// lui, load upper immidiate!?!
+		`OPC_LUI: ALUop = `ALU_COPY_B; 	// lui, load upper immidiate!?!
 
 		//
 		7'b1110011: case (funct)
-			3'b001: ALUop = ALU_ADD;	// CSRRW
-			3'b101: ALUop = ALU_ADD;	// CSRRWI
+			3'b001: ALUop = `ALU_ADD;	// CSRRW
+			3'b101: ALUop = `ALU_ADD;	// CSRRWI
 		endcase 
 
-		default: ALUop = ALU_XXX;
+		default: ALUop = `ALU_XXX;
 
 	endcase 
 
